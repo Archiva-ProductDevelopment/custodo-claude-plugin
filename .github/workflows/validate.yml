@@ -11,36 +11,4 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 24
-      - name: Assemble the submission package
-        run: |
-          mkdir -p "$RUNNER_TEMP/custodo-plugin"
-          git archive HEAD .claude-plugin/plugin.json .mcp.json assets skills README.md LICENSE |
-            tar -x -C "$RUNNER_TEMP/custodo-plugin"
-      - name: Validate with Claude Code
-        # v2.1.281+ recognises Anthropic's five directory listing fields.
-        run: npx --yes @anthropic-ai/claude-code@2.1.325 plugin validate --strict "$RUNNER_TEMP/custodo-plugin"
-      - name: Check listing links, logo and connector
-        run: node .github/scripts/validate-listing.mjs "$RUNNER_TEMP/custodo-plugin"
-      - name: Archive the validated plugin
-        shell: bash
-        run: |
-          version="$(node -p "require(process.env.RUNNER_TEMP + '/custodo-plugin/.claude-plugin/plugin.json').version")"
-          archive="custodo-claude-plugin-${version}.zip"
-          cd "$RUNNER_TEMP/custodo-plugin"
-          zip -qrX "$RUNNER_TEMP/$archive" .
-          cd "$RUNNER_TEMP"
-          sha256sum "$archive" > "$archive.sha256"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: validated-plugin
-          path: |
-            ${{ runner.temp }}/custodo-claude-plugin-*.zip
-            ${{ runner.temp }}/custodo-claude-plugin-*.zip.sha256
-          if-no-files-found: error
+    uses: Archiva-ProductDevelopment/custodo-claude-plugin/.github/workflows/validate.yml@aabb98937f42ef8073332ec1e18cbbc6a5d6e23e

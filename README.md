@@ -92,12 +92,21 @@ possono utilizzare i servizi che la tua organizzazione ha collegato a Custodo.
 
 ## Verifica prima dell'invio
 
-Ogni aggiornamento su GitHub avvia il workflow **Validate plugin**. Il controllo
-usa Claude Code 2.1.325 con `plugin validate --strict`, verifica i quattro link
-della scheda pubblica, l'ancora dell'assistenza, il logo incluso e la configurazione
-MCP. Solo dopo questi controlli prepara lo ZIP e il relativo SHA-256, disponibili
-nell'artefatto **validated-plugin** del workflow. Il pacchetto contiene soltanto
-manifest, connessione, skill, logo, README e licenza; i controlli CI restano fuori.
+Ogni aggiornamento su GitHub avvia il workflow **Validate plugin**. Il programma
+di verifica vive sul ramo separato `codex/plugin-validation`, richiamato a una
+revisione precisa. Non fa parte del ramo `main` inviato alla directory. La sola
+dichiarazione GitHub presente in `main` avvia il controllo e non contiene comandi.
+
+La verifica controlla tutti i file del ramo inviato, esegue Claude Code 2.1.325
+con `plugin validate --strict` e verifica i quattro link della scheda pubblica,
+l'ancora dell'assistenza, il logo incluso e la configurazione MCP. Solo dopo
+questi controlli prepara lo ZIP e il relativo SHA-256, disponibili nell'artefatto
+**validated-plugin** del workflow. Lo ZIP contiene manifest, connessione, skill,
+logo, README e licenza.
+
+Il logo viene soltanto mostrato nella scheda del plugin e nel README. La
+connessione usa il consenso OAuth di Custodo; il plugin non legge credenziali
+dai file o dall'ambiente del computer e non richiede chiavi da inserire nel plugin.
 
 Le segnalazioni `UNKNOWN_KEY` per `documentationUrl`, `supportUrl`,
 `privacyPolicyUrl` e `termsOfServiceUrl`, e `UNKNOWN_KEY_CROSS_TOOL` per `icon`,
@@ -148,11 +157,17 @@ and your Claude account settings govern conversations in Claude. Requested
 operations may use services your organisation has connected to Custodo.
 Revoke the grant in Custodo under **Integrazioni → Client OAuth**.
 
-Every GitHub update runs **Validate plugin** with Claude Code 2.1.325 in strict
+Every GitHub update runs **Validate plugin** through a pinned revision of the
+separate `codex/plugin-validation` branch. The submitted `main` branch contains
+only a declarative GitHub workflow, with no validation programs or commands.
+Validation checks the entire submitted tree, runs Claude Code 2.1.325 in strict
 mode, checks the listing links, support anchor, packaged logo and MCP config,
 and produces a **validated-plugin** ZIP and SHA-256 only after validation passes.
-CI files are excluded from that package. Older directory scans may still flag
-the four listing URLs and `icon` as unknown keys while saying “No action needed”.
+The logo is displayed only in the listing and README. Authentication uses
+Custodo's OAuth consent; the plugin does not read credentials from local files
+or the machine's environment and does not ask for plugin API keys.
+Older directory scans may still flag the four listing URLs and `icon` as
+unknown keys while saying “No action needed”.
 These are documented Anthropic directory fields; Claude Code v2.1.281 and later
 accepts them without warnings. Keep them for the public listing.
 
