@@ -90,6 +90,24 @@ possono utilizzare i servizi che la tua organizzazione ha collegato a Custodo.
 - [Termini di servizio](https://custodo.ai/termini)
 - Contatto: info@custodo.ai
 
+## Verifica prima dell'invio
+
+Ogni aggiornamento su GitHub avvia il workflow **Validate plugin**. Il controllo
+usa Claude Code 2.1.325 con `plugin validate --strict`, verifica i quattro link
+della scheda pubblica, l'ancora dell'assistenza, il logo incluso e la configurazione
+MCP. Solo dopo questi controlli prepara lo ZIP e il relativo SHA-256, disponibili
+nell'artefatto **validated-plugin** del workflow. Il pacchetto contiene soltanto
+manifest, connessione, skill, logo, README e licenza; i controlli CI restano fuori.
+
+Le segnalazioni `UNKNOWN_KEY` per `documentationUrl`, `supportUrl`,
+`privacyPolicyUrl` e `termsOfServiceUrl`, e `UNKNOWN_KEY_CROSS_TOOL` per `icon`,
+possono ancora comparire nella scansione della directory. Sono campi che la
+directory Anthropic legge per la scheda del plugin; il messaggio «No action
+needed» li riconosce. Claude Code li accetta senza avvisi dalla versione
+2.1.281. Mantenerli permette alla directory di mostrare documentazione,
+assistenza, privacy, termini e logo. Vedi il
+[riferimento ufficiale del manifest](https://code.claude.com/docs/en/plugins/manifest-reference#directory-listing-fields).
+
 ## English
 
 Custodo connects Claude to your organisation's document archive and back office.
@@ -129,5 +147,13 @@ privacy policy and service terms govern its data retention; Anthropic's terms
 and your Claude account settings govern conversations in Claude. Requested
 operations may use services your organisation has connected to Custodo.
 Revoke the grant in Custodo under **Integrazioni → Client OAuth**.
+
+Every GitHub update runs **Validate plugin** with Claude Code 2.1.325 in strict
+mode, checks the listing links, support anchor, packaged logo and MCP config,
+and produces a **validated-plugin** ZIP and SHA-256 only after validation passes.
+CI files are excluded from that package. Older directory scans may still flag
+the four listing URLs and `icon` as unknown keys while saying “No action needed”.
+These are documented Anthropic directory fields; Claude Code v2.1.281 and later
+accepts them without warnings. Keep them for the public listing.
 
 Published by **Archiva Srl**, VAT IT03237470236. Proprietary; see LICENSE.

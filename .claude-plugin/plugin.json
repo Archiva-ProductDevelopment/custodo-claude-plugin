@@ -1,7 +1,7 @@
 {
   "name": "custodo",
   "displayName": "Custodo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Collega Claude ai moduli di Custodo: archivio, comunicazioni, attività, vendite, amministrazione, magazzino e personale, con i tuoi permessi. Richiede un account Custodo.",
   "author": {
     "name": "Archiva Srl",
