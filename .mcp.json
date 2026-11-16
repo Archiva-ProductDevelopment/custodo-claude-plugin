@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "custodo": {
+      "type": "http",
+      "url": "https://api.custodo.ai/mcp"
+    }
+  }
+}
