@@ -1,13 +1,20 @@
 {
   "name": "custodo",
-  "version": "1.0.1",
+  "displayName": "Custodo",
+  "version": "1.0.2",
   "description": "Collega Claude ai moduli di Custodo: archivio, comunicazioni, attività, vendite, amministrazione, magazzino e personale, con i tuoi permessi. Richiede un account Custodo.",
   "author": {
     "name": "Archiva Srl",
     "email": "info@custodo.ai",
     "url": "https://custodo.ai"
   },
-  "homepage": "https://custodo.ai/assistenti-ai",
+  "homepage": "https://custodo.ai",
+  "documentationUrl": "https://custodo.ai/assistenti-ai",
+  "supportUrl": "https://custodo.ai/assistenti-ai#assistenza",
+  "privacyPolicyUrl": "https://custodo.ai/privacy",
+  "termsOfServiceUrl": "https://custodo.ai/termini",
+  "repository": "https://github.com/Archiva-ProductDevelopment/custodo-claude-plugin",
+  "icon": "./assets/logo.png",
   "license": "Proprietary",
   "keywords": ["custodo", "documents", "email", "PEC", "tasks", "CRM", "Italy"]
 }
